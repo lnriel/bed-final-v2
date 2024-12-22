@@ -16,6 +16,13 @@ router.get("/", async (req, res) => {
     const { username, email } = req.query;
 
     const users = await getUsers(username, email);
+
+    if (users.length === 0) {
+      return res
+        .status(404)
+        .send("No users were found matching these filters.");
+    }
+
     res.status(200).json(users);
   } catch (error) {
     console.error(error);

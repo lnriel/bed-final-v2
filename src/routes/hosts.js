@@ -16,6 +16,13 @@ router.get("/", async (req, res) => {
     const { name } = req.query;
 
     const hosts = await getHosts(name);
+
+    if (hosts.length === 0) {
+      return res
+        .status(404)
+        .send("No hosts were found matching these filters.");
+    }
+
     res.status(200).json(hosts);
   } catch (error) {
     console.error(error);

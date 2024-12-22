@@ -16,6 +16,13 @@ router.get("/", async (req, res) => {
     const { location, pricePerNight } = req.query;
 
     const properties = await getProperties(location, pricePerNight);
+
+    if (properties.length === 0) {
+      return res
+        .status(404)
+        .send("No properties were found matching these filters.");
+    }
+
     res.status(200).json(properties);
   } catch (error) {
     console.error(error);

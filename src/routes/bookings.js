@@ -15,6 +15,13 @@ router.get("/", async (req, res) => {
   try {
     const { userId, propertyId } = req.query;
     const bookings = await getBookings(userId, propertyId);
+
+    if (bookings.length === 0) {
+      return res
+        .status(404)
+        .send("No bookings were found matching these filters.");
+    }
+
     res.status(200).json(bookings);
   } catch (error) {
     console.error(error);
